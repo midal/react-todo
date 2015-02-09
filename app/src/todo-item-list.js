@@ -1,16 +1,17 @@
 'use strict';
 
 var TodoItemList = React.createClass({
-  render: function() {
-    var todos = this.props.data.map(function (todo) {
+    render: function() {
+        var onTodo = this.props.onTodoClick;
+        var todos = this.props.data.map(function (todo) {
+            return (
+                <TodoItem key={todo.id} id={todo.id} done={todo.done} onTodoClick={onTodo}>{todo.text}</TodoItem>
+            );
+        });
         return (
-            <TodoItem key={todo.id} done={todo.done}>{todo.text}</TodoItem>
+            <ul className="todo-item-list">
+                {todos}
+            </ul>
         );
-    });
-    return (
-        <ul className="todo-item-list">
-            {todos}
-        </ul>
-    );
-  }
+    }
 });

@@ -11,6 +11,11 @@ var TodoList = React.createClass({
         });
         this.setState({data: data});
     },
+    handleTodoClick: function(key) {
+        var data = this.state.data;
+        data[key].done = !data[key].done;
+        this.setState({data: data});
+    },
     getInitialState: function() {
         return {data: []};
     },
@@ -18,7 +23,7 @@ var TodoList = React.createClass({
         return (
             <div className="todo-list">
                 <TodoForm onTodoSubmit={this.handleTodoSubmit} />
-                <TodoItemList data={this.state.data} />
+                <TodoItemList data={this.state.data} onTodoClick={this.handleTodoClick} />
             </div>
         );
     }
