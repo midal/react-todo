@@ -3,27 +3,13 @@
 'use strict';
 
 var express = require('express');
-
-var app = express();
-var path = require('path');
-var publicFolder = path.join(__dirname, '../');
-
-/* Static */
-app.use(express.static(publicFolder));
-app.disable('x-powered-by');
-
-app.listen(8080, function () {
-    console.log('Server up and running....');
-    console.log('Serving static files from: ' + publicFolder);
-});
-
-/* API */
-
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/react-todo');
+var bodyParser = require('body-parser');
 var Todo = require('./todo');
 
-var bodyParser = require('body-parser');
+var app = express();
+mongoose.connect('mongodb://localhost:27017/react-todo');
+
 var port = 8091;
 
 app.use(bodyParser.urlencoded({ extended: true }));
