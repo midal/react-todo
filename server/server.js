@@ -47,6 +47,7 @@ router.route('/todos')
     .post(function(req, res) {
 
         var todo = new Todo();      // create a new instance of the todo model
+        console.log(req.body.text);
         todo.text = req.body.text;  // set the todos text (comes from the request)
         todo.done = false;
 
@@ -96,6 +97,16 @@ router.route('/todos/:todo_id')
                 res.json({ message: 'Todo updated!' });
             });
 
+        });
+    })
+    .delete(function(req, res) {
+        Todo.remove({
+            _id: req.params.todo_id
+        }, function(err, todo) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Successfully deleted' });
         });
     });
 
