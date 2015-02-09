@@ -1,20 +1,22 @@
-var gulp = require('gulp');
-var browserSync = require('browser-sync');
+var gulp       = require('gulp');
+var livereload = require('gulp-livereload');
 
 gulp.task('default', function() {
   // place code for your default task here
 });
 
-gulp.task('browser-sync', function () {
+gulp.task('watch', function () {
    var files = [
-      'app/**/*.html',
-      'app/**/*.css',
-      'app/src/**/*.js'
+      'app/*.html',
+      'app/*.css',
+      'app/build/*.js'
    ];
 
-   browserSync.init(files, {
-      server: {
-         baseDir: './app'
-      }
-   });
+   livereload.listen();
+   gulp.watch(files, ['reload']);
+});
+
+gulp.task('reload', function () {
+  gulp.src('')
+    .pipe(livereload());
 });

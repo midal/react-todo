@@ -6,8 +6,10 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var Todo = require('./todo');
+var path = require('path');
 
 var app = express();
+var publicFolder = path.join(__dirname, '../');
 mongoose.connect('mongodb://localhost:27017/react-todo');
 
 var port = 8091;
@@ -33,7 +35,6 @@ router.route('/todos')
     .post(function(req, res) {
 
         var todo = new Todo();      // create a new instance of the todo model
-        console.log(req.body.text);
         todo.text = req.body.text;  // set the todos text (comes from the request)
         todo.done = false;
 
@@ -42,7 +43,12 @@ router.route('/todos')
             if (err)
                 res.send(err);
 
-            res.json({ message: 'Todo created!' });
+            Todo.find(function(err, todos) {
+                if (err)
+                    res.send(err);
+
+                res.json(todos);
+            });
         });
 
     })
@@ -92,12 +98,18 @@ router.route('/todos/:todo_id')
             if (err)
                 res.send(err);
 
-            res.json({ message: 'Successfully deleted' });
+            Todo.find(function(err, todos) {
+                if (err)
+                    res.send(err);
+
+                res.json(todos);
+            });
         });
     });
 
 
 app.use('/api', router);
+app.use('/app', express.static(__dirname + '/../app'));
 
 app.listen(port);
 console.log('Magic happens on port ' + port);

@@ -3,13 +3,28 @@
 var TodoList = React.createClass({
 
     handleTodoSubmit: function(todo) {
-        var data = this.state.data;
-        data.push({
+        var newTodo = {
             text: todo.text,
             done: false,
-            id: data.length
+            id: -1
+        };
+        var todos = this.state.data;
+        var newTodos = todos.concat([newTodo]);
+        this.setState({data: newTodos});
+
+        $.ajax({
+            url: this.props.url,
+            dataType: 'json',
+            type: 'POST',
+            data: todo,
+            success: function(data) {
+                this.setState({data: data});
+                this.loadTodosFromServer();
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(this.props.url, status, err.toString());
+            }.bind(this)
         });
-        this.setState({data: data});
     },
     handleTodoClick: function(key) {
         var data = this.state.data;
@@ -18,6 +33,21 @@ var TodoList = React.createClass({
     },
     getInitialState: function() {
         return {data: []};
+    },
+    componentDidMount: function() {
+        this.loadTodosFromServer();
+    },
+    loadTodosFromServer: function() {
+        $.ajax({
+            url: this.props.url,
+            dataType: 'json',
+            success: function(data) {
+                this.setState({data: data});
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(this.props.url, status, err.toString());
+            }.bind(this)
+        });
     },
     render: function() {
         return (

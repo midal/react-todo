@@ -14,7 +14,7 @@
     "body-parser": "^1.11.0",
     "mongoose": "^3.8.23",
     "gulp": "^3.8.10",
-    "browser-sync": "^2.0.0-rc10"
+    "gulp-livereload": "^3.7.0"
   },
   "scripts": {
     "server": "node server/server.js"
