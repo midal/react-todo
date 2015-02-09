@@ -4,18 +4,11 @@ var TodoList = React.createClass({
 
     handleTodoSubmit: function(todo) {
         var data = this.state.data;
-        var id = data.length;
-        var newTodo = {
+        data.push({
             text: todo.text,
             done: false,
-            id: id
-        };
-
-        data.push(newTodo);
-        console.log(newTodo);
-        console.log(data.length);
-        console.log(id);
-
+            id: data.length
+        });
         this.setState({data: data});
     },
     getInitialState: function() {
