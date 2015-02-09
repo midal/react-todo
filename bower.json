@@ -1,0 +1,8 @@
+{
+  "name": "react-todo",
+  "version": "0.0.1",
+  "dependencies": {
+    "react": "~0.12.2"
+  },
+  "devDependencies": {}
+}

@@ -1,0 +1,17 @@
+{
+  "name": "react-todo",
+  "version": "0.0.1",
+  "license": "MIT",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/midal/react-todo.git"
+  },
+  "dependencies": {
+    "express": "^4.11.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "server": "node server/server.js"
+  }
+}
