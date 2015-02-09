@@ -1,3 +1,46 @@
+body, input[type=text] {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    font-size: 1em;
+}
+
+h1 {
+    font-weight: 400;
+}
+
+footer {
+    font-size: 0.8em;
+    color: #999
+}
+
+.todoForm input[type=submit] {
+    display: none;
+}
+.todoForm input[type=text] {
+    width: 100%;
+    padding: 1rem;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.todo-item-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.todo-item {
+    padding: 1rem;
+    cursor: pointer;
+    background-color: #F5F5F5;
+}
+.todo-item:hover {
+    background-color: #EEEEEE;
+}
+
 .done {
     background-color: #8BC34A;
+    color: #fff;
+}
+.done:hover {
+    background-color: #9CCC65;
 }
