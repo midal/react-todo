@@ -5,3 +5,4 @@ dist/
 pkg/
 github.com/
 *.swp
+app/build/
