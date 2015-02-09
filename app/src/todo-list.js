@@ -26,10 +26,24 @@ var TodoList = React.createClass({
             }.bind(this)
         });
     },
-    handleTodoClick: function(key) {
+    handleTodoClick: function(todo) {
         var data = this.state.data;
-        data[key].done = !data[key].done;
+        var index = data.indexOf(todo);
+        data[index].done = !data[index].done;
         this.setState({data: data});
+        $.ajax({
+            url: this.props.url + "/" + todo._id,
+            dataType: 'json',
+            type: 'POST',
+            data: data[index],
+            success: function(data) {
+                this.setState({data: data});
+                this.loadTodosFromServer();
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(this.props.url, status, err.toString());
+            }.bind(this)
+        });
     },
     getInitialState: function() {
         return {data: []};

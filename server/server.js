@@ -71,7 +71,7 @@ router.route('/todos/:todo_id')
             res.json(todo);
         });
     })
-    .put(function(req, res) {
+    .post(function(req, res) {
 
         // use our todo model to find the todo we want
         Todo.findById(req.params.todo_id, function(err, todo) {
@@ -86,7 +86,12 @@ router.route('/todos/:todo_id')
                 if (err)
                     res.send(err);
 
-                res.json({ message: 'Todo updated!' });
+                Todo.find(function(err, todos) {
+                    if (err)
+                        res.send(err);
+
+                    res.json(todos);
+                });
             });
 
         });
