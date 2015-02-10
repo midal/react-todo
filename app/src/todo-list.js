@@ -26,9 +26,13 @@ var TodoList = React.createClass({
             }.bind(this)
         });
     },
-    handleTodoClick: function(todo) {
+    handleTodoDone: function(todo) {
         var data = this.state.data;
         var index = data.indexOf(todo);
+        if (index === -1) {
+            return;
+        }
+
         data[index].done = !data[index].done;
         this.setState({data: data});
         $.ajax({
@@ -36,6 +40,24 @@ var TodoList = React.createClass({
             dataType: 'json',
             type: 'POST',
             data: data[index],
+            success: function(data) {
+                this.setState({data: data});
+                this.loadTodosFromServer();
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(this.props.url, status, err.toString());
+            }.bind(this)
+        });
+    },
+    handleTodoDelete: function(todo) {
+        var data = this.state.data;
+        var index = data.indexOf(todo);
+        data.splice(index, 1);
+        this.setState({data: data});
+        $.ajax({
+            url: this.props.url + "/" + todo._id,
+            dataType: 'json',
+            type: 'DELETE',
             success: function(data) {
                 this.setState({data: data});
                 this.loadTodosFromServer();
@@ -66,8 +88,12 @@ var TodoList = React.createClass({
     render: function() {
         return (
             <div className="todo-list">
-                <TodoForm onTodoSubmit={this.handleTodoSubmit} />
-                <TodoItemList data={this.state.data} onTodoClick={this.handleTodoClick} />
+                <TodoForm
+                    onTodoSubmit={this.handleTodoSubmit} />
+                <TodoItemList
+                    data={this.state.data}
+                    onTodoDone={this.handleTodoDone}
+                    onTodoDelete={this.handleTodoDelete} />
             </div>
         );
     }

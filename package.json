@@ -17,6 +17,6 @@
     "gulp-livereload": "^3.7.0"
   },
   "scripts": {
-    "server": "node server/server.js"
+    "start": "node server/server.js"
   }
 }

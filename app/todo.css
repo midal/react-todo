@@ -44,3 +44,7 @@ footer {
 .done:hover {
     background-color: #9CCC65;
 }
+
+.deleteTodo {
+    float: right;
+}

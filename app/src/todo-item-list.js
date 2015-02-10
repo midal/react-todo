@@ -2,10 +2,17 @@
 
 var TodoItemList = React.createClass({
     render: function() {
-        var onTodo = this.props.onTodoClick;
+        var onTodoDone = this.props.onTodoDone;
+        var onTodoDelete = this.props.onTodoDelete;
         var todos = this.props.data.map(function (todo) {
             return (
-                <TodoItem key={todo.id} data={todo} onTodoClick={onTodo}>{todo.text}</TodoItem>
+                <TodoItem
+                    key={todo.id}
+                    data={todo}
+                    onTodoDone={onTodoDone}
+                    onTodoDelete={onTodoDelete}>
+                        {todo.text}
+                </TodoItem>
             );
         });
         return (
