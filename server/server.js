@@ -9,106 +9,99 @@ var Todo = require('./todo');
 var path = require('path');
 
 var app = express();
-var publicFolder = path.join(__dirname, '../');
-mongoose.connect('mongodb://localhost:27017/react-todo');
-
+var router = express.Router();
 var port = 8091;
+
+mongoose.connect('mongodb://localhost:27017/react-todo');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var router = express.Router();
-
-router.use(function(req, res, next) {
-    // do logging
-    console.log('Something is happening.');
-    next(); // make sure we go to the next routes and don't stop here
-});
-
+router.use(function(req, res, next) { next(); });
 router.get('/', function(req, res) {
     res.json({ message: 'hooray! welcome to our api!' });
 });
 
+function returnAllTodos(res) {
+    Todo.find(function(err, todos) {
+        if (err) {
+            console.log('-- 400: ' + err);
+            res.send(err);
+        }
+        else {
+            console.log('-- 200');
+        }
+        res.json(todos);
+    });
+}
+
+function handleErrors(err, res) {
+    console.log('-- 400: ' + err);
+    res.send(err);
+}
 
 router.route('/todos')
-    // create a todo (accessed at POST http://localhost:8080/api/todos)
     .post(function(req, res) {
+        console.log('[POST] /todos {text: ' + req.body.text + '}');
 
-        var todo = new Todo();      // create a new instance of the todo model
-        todo.text = req.body.text;  // set the todos text (comes from the request)
+        var todo = new Todo();
+        todo.text = req.body.text;
         todo.done = false;
 
-        // save the todo and check for errors
         todo.save(function(err) {
             if (err)
-                res.send(err);
+                handleErrors(err, res);
 
-            Todo.find(function(err, todos) {
-                if (err)
-                    res.send(err);
-
-                res.json(todos);
-            });
+            returnAllTodos(res);
         });
-
     })
-    .get(function(req, res) {
-        Todo.find(function(err, todos) {
-            if (err)
-                res.send(err);
 
-            res.json(todos);
-        });
+    .get(function(req, res) {
+        console.log('[GET] /todos');
+
+        returnAllTodos(res);
     });
 
 router.route('/todos/:todo_id')
-
-    // get the todo with that id (accessed at GET http://localhost:8080/api/todos/:todo_id)
     .get(function(req, res) {
+        console.log('[GET] /todos/' + req.params.todo_id);
+
         Todo.findById(req.params.todo_id, function(err, todo) {
             if (err)
-                res.send(err);
+                handleErrors(err, res);
+            else
+                console.log('-- 200');
+
             res.json(todo);
         });
     })
+
     .post(function(req, res) {
+        console.log('[POST] /todos/' + req.params.todo_id);
 
-        // use our todo model to find the todo we want
         Todo.findById(req.params.todo_id, function(err, todo) {
-
             if (err)
-                res.send(err);
+                handleErrors(err, res);
 
             todo.done = req.body.done;
 
-            // save the todo
             todo.save(function(err) {
                 if (err)
-                    res.send(err);
+                    handleErrors(err, res);
 
-                Todo.find(function(err, todos) {
-                    if (err)
-                        res.send(err);
-
-                    res.json(todos);
-                });
+                returnAllTodos(res);
             });
-
         });
     })
+
     .delete(function(req, res) {
-        Todo.remove({
-            _id: req.params.todo_id
-        }, function(err, todo) {
+        console.log('[DELETE] /todos/' + req.params.todo_id);
+
+        Todo.remove({ _id: req.params.todo_id }, function(err, todo) {
             if (err)
-                res.send(err);
+                handleErrors(err, res);
 
-            Todo.find(function(err, todos) {
-                if (err)
-                    res.send(err);
-
-                res.json(todos);
-            });
+            returnAllTodos(res);
         });
     });
 
@@ -116,5 +109,6 @@ router.route('/todos/:todo_id')
 app.use('/api', router);
 app.use('/app', express.static(__dirname + '/../app'));
 
-app.listen(port);
-console.log('Magic happens on port ' + port);
+app.listen(port, function () {
+    console.log('Server up and running. Linstening on port: ' + port);
+});
