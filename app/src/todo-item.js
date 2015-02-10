@@ -13,8 +13,18 @@ var TodoItem = React.createClass({
                 that.props.onTodoDelete(that.props.data);
                 break;
             }
+        },
+        swipeStatus: function (event, phase, direction, distance) {
+          if (phase === "move") {
+            var dir = direction==="right" ? '1' : '-1';
+            $(this).css({'transform': 'translateX(' + (distance < 200 ? distance : 200)*dir + 'px)'});
+          }
+          else {
+            $(this).css({'transform': 'translateX(0px)'});
+          }
         }
     });
+    $(this.refs.MyTodoItem.getDOMNode()).swipe("option", "threshold", 100);
   },
   render: function() {
     var cx = React.addons.classSet;
@@ -24,7 +34,11 @@ var TodoItem = React.createClass({
     });
 
     return (
-      <li className={classes} ref="MyTodoItem">{this.props.children}</li>
+      <li className={classes} ref="MyTodoItem">
+        <div className="pre"></div>
+        <div className="theItem">{this.props.children}</div>
+        <div className="post">Delete</div>
+      </li>
     );
   }
 });

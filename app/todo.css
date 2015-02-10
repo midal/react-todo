@@ -26,6 +26,8 @@ footer {
 .todo-item-list {
     list-style: none;
     padding-left: 0;
+    overflow: hidden;
+
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -35,22 +37,58 @@ footer {
 }
 
 .todo-item {
-    padding: 1rem;
-    cursor: pointer;
-    background-color: #F5F5F5;
+    width: 200%;
 }
-.todo-item:hover {
+
+.todo-item .theItem {
+    background-color: #F5F5F5;
+    padding: 1rem 1%;
+    margin: 0;
+    width: 48%;
+    display: inline-block;
+
+    -webkit-transition: background-color 0.4s;
+    transition: background-color 0.4s;
+}
+
+.todo-item .pre {
+    padding: 1rem 1%;
+    color: #fff;
+    width: 20%;
+    display: inline-block;
+    text-align: right;
+    margin-left: -22%;
+    background-color: #8BC34A;
+}
+.pre::before {
+    content: 'Done';
+}
+
+.todo-item .post {
+    padding: 1rem 1%;
+    color: #fff;
+    background-color: #e53935;
+    width: 22%;
+    display: inline-block;
+}
+
+.theItem:hover {
     background-color: #EEEEEE;
 }
 
-.done {
+.done .theItem {
     background-color: #8BC34A;
     color: #fff;
 }
-.done:hover {
+
+.done .theItem:hover {
     background-color: #9CCC65;
 }
 
-.deleteTodo {
-    float: right;
+.done .pre {
+    color: #000;
+    background-color: #F5F5F5;
+}
+.done .pre::before {
+    content: 'Not Done';
 }
