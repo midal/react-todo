@@ -1,11 +1,20 @@
 'use strict';
 
 var TodoItem = React.createClass({
-  handleDone: function(event) {
-      this.props.onTodoDone(this.props.data);
-  },
-  handleDelete: function(event) {
-      this.props.onTodoDelete(this.props.data);
+  componentDidMount: function() {
+    var that = this;
+    $(this.refs.MyTodoItem.getDOMNode()).swipe( {
+        swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+            switch (direction) {
+              case "right":
+                that.props.onTodoDone(that.props.data);
+                break;
+              case "left":
+                that.props.onTodoDelete(that.props.data);
+                break;
+            }
+        }
+    });
   },
   render: function() {
     var cx = React.addons.classSet;
@@ -15,10 +24,7 @@ var TodoItem = React.createClass({
     });
 
     return (
-      <li className={classes} onClick={this.handleDone}>
-        {this.props.children}
-        <span className="deleteTodo" onClick={this.handleDelete}>x</span>
-      </li>
+      <li className={classes} ref="MyTodoItem">{this.props.children}</li>
     );
   }
 });
