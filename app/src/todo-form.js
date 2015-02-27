@@ -1,4 +1,5 @@
 'use strict';
+var React = require('react');
 
 var TodoForm = React.createClass({
     handleSubmit: function(e) {
@@ -19,3 +20,5 @@ var TodoForm = React.createClass({
         );
     }
 });
+
+module.exports = TodoForm;

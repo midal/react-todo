@@ -1,4 +1,6 @@
 'use strict';
+var React = require('react');
+var TodoItem = require('./todo-item');
 
 var TodoItemList = React.createClass({
     render: function() {
@@ -22,3 +24,5 @@ var TodoItemList = React.createClass({
         );
     }
 });
+
+module.exports = TodoItemList;

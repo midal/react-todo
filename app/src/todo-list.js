@@ -1,4 +1,7 @@
 'use strict';
+var React = require('react');
+var TodoForm = require('./todo-form');
+var TodoItemList = require('./todo-item-list');
 
 var TodoList = React.createClass({
 
@@ -98,3 +101,5 @@ var TodoList = React.createClass({
         );
     }
 });
+
+module.exports = TodoList;

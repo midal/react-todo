@@ -1,4 +1,5 @@
 'use strict';
+var React = require('react/addons');
 
 var TodoItem = React.createClass({
   componentDidMount: function() {
@@ -42,3 +43,5 @@ var TodoItem = React.createClass({
     );
   }
 });
+
+module.exports = TodoItem;
