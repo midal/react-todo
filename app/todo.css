@@ -16,6 +16,7 @@ footer {
 .todoForm input[type=submit] {
     display: none;
 }
+
 .todoForm input[type=text] {
     width: 100%;
     padding: 1rem;
@@ -60,6 +61,7 @@ footer {
     margin-left: -22%;
     background-color: #8BC34A;
 }
+
 .pre::before {
     content: 'Done';
 }
@@ -89,6 +91,7 @@ footer {
     color: #000;
     background-color: #F5F5F5;
 }
+
 .done .pre::before {
     content: 'Not Done';
 }

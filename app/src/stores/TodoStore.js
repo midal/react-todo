@@ -1,3 +1,4 @@
+'use strict';
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var TodoConstants = require('../constants/TodoConstants');
@@ -117,6 +118,7 @@ AppDispatcher.register(function(action) {
             destroyCompleted();
             TodoStore.emitChange();
             break;
+
         case TodoConstants.api.GET_TODOS:
             _todos = action.response;
             TodoStore.emitChange();
