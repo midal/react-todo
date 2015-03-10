@@ -6,7 +6,7 @@ var TodoStore = require('../stores/TodoStore');
 var TodoActions = require('../actions/TodoActions');
 
 function getTodoState() {
-  return { todos: TodoStore.getAll() };
+    return { todos: TodoStore.getAll() };
 }
 
 var TodoList = React.createClass({
@@ -28,8 +28,7 @@ var TodoList = React.createClass({
         return (
             <div className="todo-list">
                 <TodoForm />
-                <TodoItemList
-                    data={this.state} />
+                <TodoItemList data={this.state} />
             </div>
         );
     },

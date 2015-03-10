@@ -7,6 +7,14 @@ var CHANGE_EVENT = 'change';
 
 var _todos = [];
 
+function findTodoWithId(id) {
+    var todos = _todos.filter(function (todo) {
+        return todo.id === id || todo._id === id;
+    });
+
+    return _todos.indexOf(todos[0]);
+}
+
 function create(text, callback) {
     var id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
     _todos.push({
@@ -17,8 +25,7 @@ function create(text, callback) {
 }
 
 function update(id, updates) {
-    var todo = _todos.filter(function (todo) {return todo.id === id || todo._id === id;})[0];
-    var index = _todos.indexOf(todo);
+    var index = findTodoWithId(id);
     _todos[index] = assign({}, _todos[index], updates);
 }
 
@@ -29,8 +36,7 @@ function updateAll(updates) {
 }
 
 function destroy(id) {
-    var todo = _todos.filter(function (todo) {return todo.id === id || todo._id === id;})[0];
-    var index = _todos.indexOf(todo);
+    var index = findTodoWithId(id);
     delete _todos[index];
 }
 
@@ -71,10 +77,10 @@ var TodoStore = assign({}, EventEmitter.prototype, {
 });
 
 AppDispatcher.register(function(action) {
-    var text;
 
     switch(action.actionType) {
         case TodoConstants.TODO_CREATE:
+            var text;
             text = action.text.trim();
             if (text !== '') {
                 create(text);
@@ -85,11 +91,12 @@ AppDispatcher.register(function(action) {
         case TodoConstants.TODO_TOGGLE_COMPLETE_ALL:
             if (TodoStore.areAllComplete()) {
                 updateAll({done: false});
-            } else {
+            }
+            else {
                 updateAll({done: true});
             }
             TodoStore.emitChange();
-        break;
+            break;
 
         case TodoConstants.TODO_NOT_COMPLETE:
             update( action.id, {done: false} );

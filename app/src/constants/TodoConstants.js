@@ -1,4 +1,5 @@
 var keyMirror = require('keymirror');
+
 var constants = keyMirror({
     TODO_CREATE:                null,
     TODO_COMPLETE:              null,

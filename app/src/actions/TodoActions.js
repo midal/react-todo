@@ -14,13 +14,15 @@ var TodoActions = {
 
     toggleComplete: function(todo) {
         var id = todo._id || todo.id;
+
         if (todo.done) {
             Api.updateTodo(id, {done: false});
             AppDispatcher.dispatch({
                 actionType: TodoConstants.TODO_NOT_COMPLETE,
                 id: id
             });
-        } else {
+        }
+        else {
             Api.updateTodo(id, {done: true});
             AppDispatcher.dispatch({
                 actionType: TodoConstants.TODO_COMPLETE,
@@ -37,6 +39,7 @@ var TodoActions = {
 
     destroy: function(todo) {
         var id = todo._id || todo.id;
+
         Api.deleteTodo(id);
         AppDispatcher.dispatch({
             actionType: TodoConstants.TODO_DESTROY,

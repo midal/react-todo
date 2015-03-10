@@ -5,7 +5,9 @@ var TodoActions = require('../actions/TodoActions');
 var TodoItem = React.createClass({
     componentDidMount: function() {
         var that = this;
+
         $(this.refs.MyTodoItem.getDOMNode()).swipe( {
+
             swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
                 switch (direction) {
                     case "right":
@@ -16,6 +18,7 @@ var TodoItem = React.createClass({
                         break;
                 }
             },
+
             swipeStatus: function (event, phase, direction, distance) {
                 if (phase === "move") {
                     var dir = direction==="right" ? '1' : '-1';
@@ -26,6 +29,7 @@ var TodoItem = React.createClass({
                 }
             }
         });
+
         $(this.refs.MyTodoItem.getDOMNode()).swipe("option", "threshold", 100);
     },
     render: function() {
