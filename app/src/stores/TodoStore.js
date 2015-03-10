@@ -16,6 +16,12 @@ function findTodoWithId(id) {
     return _todos.indexOf(todos[0]);
 }
 
+function updateTodos(todos) {
+    if (todos !== "PENDING") {
+        _todos = todos;
+    }
+}
+
 function create(text, callback) {
     var id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
     _todos.push({
@@ -120,7 +126,12 @@ AppDispatcher.register(function(action) {
             break;
 
         case TodoConstants.api.GET_TODOS:
-            _todos = action.response;
+            updateTodos(action.response);
+            TodoStore.emitChange();
+            break;
+
+        case TodoConstants.api.CREATE_TODO:
+            updateTodos(action.response);
             TodoStore.emitChange();
             break;
 
