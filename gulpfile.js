@@ -1,6 +1,7 @@
 var gulp       = require('gulp');
 var livereload = require('gulp-livereload');
 var browserify = require('gulp-browserify');
+var autoprefixer = require('gulp-autoprefixer');
 
 gulp.task('default', function() {
   // place code for your default task here
@@ -20,6 +21,7 @@ gulp.task('watch', function () {
    livereload.listen();
    gulp.watch(scripts, ['scripts']);
    gulp.watch(files, ['reload']);
+   gulp.watch('app/todo.css', ['styles']);
 });
 
 gulp.task('reload', function () {
@@ -35,4 +37,13 @@ gulp.task('scripts', function() {
       ]
     }))
     .pipe(gulp.dest('./app/build/'))
+});
+
+gulp.task('styles', function () {
+    return gulp.src('app/todo.css')
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions'],
+            cascade: true
+        }))
+        .pipe(gulp.dest('./app/build'));
 });
