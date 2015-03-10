@@ -1,22 +1,8 @@
 var AppDispatcher = require('./dispatcher/AppDispatcher');
 var TodoConstants = require('./constants/TodoConstants');
-require('es6-promise').polyfill();
+var request = require('request-promise');
 
-var CHANGE_EVENT = 'change';
-
-var API_URL = '/api';
-var TIMEOUT = 10000;
-
-var _pendingRequests = {};
-
-
-function abortPendingRequests(key) {
-    if (_pendingRequests[key]) {
-        _pendingRequests[key]._callback = function(){};
-        _pendingRequests[key].abort();
-        _pendingRequests[key] = null;
-    }
-}
+var API_URL = 'http://localhost:8091/api';
 
 function makeUrl(part) {
     return API_URL + part;
@@ -30,106 +16,67 @@ function dispatch(key, response, params) {
     AppDispatcher.dispatch(payload);
 }
 
-// a get request with an authtoken param
-function get(url) {
-    return new Promise(function (resolve, reject) {
-        $.ajax({
-            url: url,
-            dataType: 'json',
-            success: function(data) {
-                resolve(data);
-            },
-            error: function(xhr, status, err) {
-                console.error(API_URL, status, err.toString());
-                reject(err);
-            }
-        });
-    });
-}
-
-function post(url, data) {
-    return new Promise(function (resolve, reject) {
-        $.ajax({
-            url: url,
-            type: 'POST',
-            dataType: 'json',
-            data: data,
-            success: function(data) {
-                resolve(data);
-            },
-            error: function(xhr, status, err) {
-                console.error(API_URL, status, err.toString());
-                reject(err);
-            }
-        });
-    });
-}
-
-function del(url) {
-    return new Promise(function (resolve, reject) {
-        $.ajax({
-            url: url,
-            type: 'DELETE',
-            dataType: 'json',
-            success: function(data) {
-                resolve(data);
-            },
-            error: function(xhr, status, err) {
-                console.error(API_URL, status, err.toString());
-                reject(err);
-            }
-        });
-    });
-}
-
 var Api = {
-    getTodos: function() {
+    getTodos: function getTodos() {
         var url = makeUrl('/todos/');
         var key = TodoConstants.api.GET_TODOS;
-        abortPendingRequests(key);
+
         dispatch(key, TodoConstants.request.PENDING);
-        _pendingRequests[key] = get(url).then(function(data) {
-            dispatch(key, data);
-        }, function(err) {
+
+        request(url)
+        .then(function(data) {
+            dispatch(key, JSON.parse(data));
+        })
+        .catch(function(err) {
             console.error(err);
             return err;
         });
     },
-    createTodo: function(text) {
+
+    createTodo: function createTodo(text) {
         var url = makeUrl('/todos/');
         var key = TodoConstants.api.CREATE_TODO;
-        // abortPendingRequests(key);
+        var data = {text: text};
+
         dispatch(key, TodoConstants.request.PENDING);
-        _pendingRequests[key] = post(url, {text: text})
+
+        request.post(url, {json: true, body: data})
         .then(function(data) {
             dispatch(key, data);
-        }, function(err) {
+        })
+        .catch(function(err) {
             console.error('Error creating todo on server');
             return err;
         });
     },
-    updateTodo: function(id, params) {
+
+    updateTodo: function updateTodo(id, params) {
         var url = makeUrl('/todos/'+id);
         var key = TodoConstants.api.UPDATE_TODO;
-        // abortPendingRequests(key);
+
         dispatch(key, TodoConstants.request.PENDING);
-        _pendingRequests[key] = post(url, params)
+
+        request.post(url, {json: true, body: params})
         .then(function(data) {
             dispatch(key, data);
-        }, function(err) {
+        })
+        .catch(function(err) {
             console.error('Error updating todo on server');
             return err;
         });
     },
-    deleteTodo: function(id) {
+
+    deleteTodo: function deleteTodo(id) {
         var url = makeUrl('/todos/'+id);
         var key = TodoConstants.api.DELETE_TODO;
-        // abortPendingRequests(key);
+
         dispatch(key, TodoConstants.request.PENDING);
-        _pendingRequests[key] = del(url)
+
+        request.del(url)
         .then(function(data) {
             dispatch(key, data);
-        }, function(err) {
+        })
+        .catch(function(err) {
             console.error('Error deleting todo on server');
             return err;
         });
