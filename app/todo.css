@@ -1,7 +1,8 @@
-body, input[type=text] {
+body,
+input[type=text] {
     font-family: 'Open Sans', sans-serif;
-    font-weight: 300;
     font-size: 1em;
+    font-weight: 300;
 }
 
 h1 {
@@ -9,8 +10,12 @@ h1 {
 }
 
 footer {
-    font-size: 0.8em;
-    color: #999
+    color: #999;
+    font-size: .8em;
+}
+
+.pre::before {
+    content: 'Done';
 }
 
 .todoForm input[type=submit] {
@@ -18,80 +23,68 @@ footer {
 }
 
 .todoForm input[type=text] {
-    width: 100%;
-    padding: 1rem;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
-}
-.todo-item-list {
-    list-style: none;
-    padding-left: 0;
-    overflow: hidden;
-
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+    padding: 1rem;
+    width: 100%;
 }
 
 .todo-item {
     width: 200%;
 }
 
-.todo-item .theItem {
-    background-color: #F5F5F5;
-    padding: 1rem 1%;
-    margin: 0;
-    width: 48%;
-    display: inline-block;
-
-    -webkit-transition: background-color 0.4s;
-    transition: background-color 0.4s;
-}
-
-.todo-item .pre {
-    padding: 1rem 1%;
+.todo-item.done .theItem {
+    background-color: #8bc34a;
     color: #fff;
-    width: 20%;
-    display: inline-block;
-    text-align: right;
-    margin-left: -22%;
-    background-color: #8BC34A;
 }
 
-.pre::before {
-    content: 'Done';
+.todo-item.done .theItem:hover {
+    background-color: #9ccc65;
+}
+
+.todo-item.done .pre {
+    background-color: #f5f5f5;
+    color: #000;
+}
+
+.todo-item.done .pre::before {
+    content: 'Not Done';
+}
+
+.todo-item .theItem {
+    background-color: #f5f5f5;
+    display: inline-block;
+    margin: 0;
+    padding: 1rem 1%;
+    transition: background-color .4s;
+    width: 48%;
+}
+
+.todo-item .theItem:hover {
+    background-color: #eee;
 }
 
 .todo-item .post {
-    padding: 1rem 1%;
-    color: #fff;
     background-color: #e53935;
-    width: 22%;
-    display: inline-block;
-}
-
-.theItem:hover {
-    background-color: #EEEEEE;
-}
-
-.done .theItem {
-    background-color: #8BC34A;
     color: #fff;
+    display: inline-block;
+    padding: 1rem 1%;
+    width: 22%;
 }
 
-.done .theItem:hover {
-    background-color: #9CCC65;
+.todo-item .pre {
+    background-color: #8bc34a;
+    color: #fff;
+    display: inline-block;
+    margin-left: -22%;
+    padding: 1rem 1%;
+    text-align: right;
+    width: 20%;
 }
 
-.done .pre {
-    color: #000;
-    background-color: #F5F5F5;
-}
-
-.done .pre::before {
-    content: 'Not Done';
+.todo-item-list {
+    list-style: none;
+    overflow: hidden;
+    padding-left: 0;
+    touch-callout: none;
+    user-select: none;
 }
