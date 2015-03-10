@@ -1,5 +1,6 @@
 'use strict';
 var React = require('react/addons');
+var TodoActions = require('../actions/TodoActions');
 
 var TodoItem = React.createClass({
   componentDidMount: function() {
@@ -8,10 +9,10 @@ var TodoItem = React.createClass({
         swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
             switch (direction) {
               case "right":
-                that.props.onTodoDone(that.props.data);
+                TodoActions.toggleComplete(that.props.data);
                 break;
               case "left":
-                that.props.onTodoDelete(that.props.data);
+                TodoActions.destroy(that.props.data);
                 break;
             }
         },

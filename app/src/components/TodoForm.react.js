@@ -1,5 +1,6 @@
 'use strict';
 var React = require('react');
+var TodoActions = require('../actions/TodoActions');
 
 var TodoForm = React.createClass({
     handleSubmit: function(e) {
@@ -9,7 +10,7 @@ var TodoForm = React.createClass({
           return;
         }
         this.refs.text.getDOMNode().value = '';
-        this.props.onTodoSubmit({text: text});
+        TodoActions.create(text);
     },
     render: function() {
         return (

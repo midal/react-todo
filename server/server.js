@@ -25,18 +25,17 @@ router.get('/', function(req, res) {
 function returnAllTodos(res) {
     Todo.find(function(err, todos) {
         if (err) {
-            console.log('-- 400: ' + err);
+            console.log(' -- 400: ' + err);
             res.send(err);
-        }
-        else {
-            console.log('-- 200');
+        } else {
+            console.log(' -- 200');
         }
         res.json(todos);
     });
 }
 
 function handleErrors(err, res) {
-    console.log('-- 400: ' + err);
+    console.log(' -- 400: ' + err);
     res.send(err);
 }
 
@@ -49,8 +48,9 @@ router.route('/todos')
         todo.done = false;
 
         todo.save(function(err) {
-            if (err)
+            if (err) {
                 handleErrors(err, res);
+            }
 
             returnAllTodos(res);
         });
@@ -67,10 +67,11 @@ router.route('/todos/:todo_id')
         console.log('[GET] /todos/' + req.params.todo_id);
 
         Todo.findById(req.params.todo_id, function(err, todo) {
-            if (err)
+            if (err) {
                 handleErrors(err, res);
-            else
-                console.log('-- 200');
+            } else {
+                console.log(' -- 200');
+            }
 
             res.json(todo);
         });
@@ -80,17 +81,19 @@ router.route('/todos/:todo_id')
         console.log('[POST] /todos/' + req.params.todo_id);
 
         Todo.findById(req.params.todo_id, function(err, todo) {
-            if (err)
+            if (err) {
                 handleErrors(err, res);
+            } else {
+                todo.done = req.body.done;
 
-            todo.done = req.body.done;
+                todo.save(function(err) {
+                    if (err)
+                        handleErrors(err, res);
 
-            todo.save(function(err) {
-                if (err)
-                    handleErrors(err, res);
+                    returnAllTodos(res);
+                });
+            }
 
-                returnAllTodos(res);
-            });
         });
     })
 
@@ -98,10 +101,12 @@ router.route('/todos/:todo_id')
         console.log('[DELETE] /todos/' + req.params.todo_id);
 
         Todo.remove({ _id: req.params.todo_id }, function(err, todo) {
-            if (err)
+            if (err) {
                 handleErrors(err, res);
+            } else {
+                returnAllTodos(res);
+            }
 
-            returnAllTodos(res);
         });
     });
 

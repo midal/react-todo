@@ -8,13 +8,17 @@
     "url": "https://github.com/midal/react-todo.git"
   },
   "dependencies": {
+    "es6-promise": "^2.0.1",
     "express": "^4.11.2",
     "flux": "^2.0.1",
+    "keymirror": "^0.1.1",
+    "object-assign": "^2.0.0",
     "react": "^0.12.2"
   },
   "devDependencies": {
     "body-parser": "^1.11.0",
     "browserify": "^9.0.3",
+    "es6-promise": "^2.0.1",
     "gulp": "^3.8.10",
     "gulp-browserify": "^0.5.1",
     "gulp-livereload": "^3.7.0",
